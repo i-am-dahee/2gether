@@ -32,7 +32,29 @@
             height: 250px;
             object-fit: cover;
         }
+
+        .member-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .member-card:hover {
+            transform: scale(1.05);
+        }
     </style>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const memberCards = document.querySelectorAll(".member-card");
+            memberCards.forEach(card => {
+                card.addEventListener("click", function() {
+                    const link = this.getAttribute("data-link");
+                    if (link) {
+                        window.location.href = link;
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="layout-fixed">
@@ -56,7 +78,7 @@
         <!-- 팀원 소개 -->
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 member-card" data-link="member.html">
                     <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top"
                         alt="...">
                     <div class="card-body">
@@ -66,7 +88,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 member-card" data-link="member.html">
                     <img src="https://i.pinimg.com/1200x/61/52/56/615256cf03c973ccc918c680ff1d79fb.jpg" class="card-img-top"
                         alt="...">
                     <div class="card-body">
@@ -76,7 +98,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 member-card" data-link="member.html">
                     <img src="https://i.pinimg.com/736x/68/71/51/687151fcefcd90788c159584a3a61f4c.jpg" class="card-img-top"
                         alt="...">
                     <div class="card-body">
@@ -86,7 +108,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 member-card" data-link="member.html">
                     <img src="https://i.pinimg.com/1200x/17/8e/77/178e771f1fc41396116f382f9d13d185.jpg" class="card-img-top"
                         alt="...">
                     <div class="card-body">
