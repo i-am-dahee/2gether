@@ -40,6 +40,28 @@
         .member-card:hover {
             transform: scale(1.05);
         }
+
+        /* 상단바 전체 영역 */
+        .top-nav {
+            width: 100%;
+            background-color: #eac2d8;   
+            color: white;
+            padding: 10px 0;
+        }
+
+        /* 안쪽 고정 레이아웃 (본문과 폭 맞추기) */
+        .nav-container {
+            width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
     </style>
     
     <script>
@@ -57,9 +79,21 @@
     </script>
 </head>
 <body>
+
+    <!-- 상단 바 -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <div class="team-name">🍨 2gether</div>
+            <button class="btn btn-light btn-sm">팀원 등록</button>
+        </div>
+    </header>
+
     <div class="layout-fixed">
+
+        <!-- 멤버 등록 코드 -->
+
         <!-- 팀 소개 -->
-        <div class="card mb-3 mx-auto" style="max-width: 1080px;">
+        <div class="card mb-3" style="max-width: 1080px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="https://i.namu.wiki/i/j9nHHoKNMs_NRsXR5rDxKfwg-lNL8f-bcpLPxfmotdqeTXpeCEscwfyPmgX_X4WvCJmpGVGPZxrbVaAEuZLVOw.webp"
