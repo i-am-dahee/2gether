@@ -63,12 +63,31 @@
             font-weight: bold;
         }
     </style>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+        // ✅ 1. Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuKi0vMgv95vPCfOgHpwtoX4T6J8C9fig",
+            authDomain: "sparta-ad55d.firebaseapp.com",
+            projectId: "sparta-ad55d",
+            storageBucket: "sparta-ad55d.firebasestorage.app",
+            messagingSenderId: "55430798216",
+            appId: "1:55430798216:web:822361d1bfade7166a383d",
+            measurementId: "G-691C86ZDWT"
+        };
+
+        // ✅ 2. Firebase & Firestore 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ✅ 3. 카드 클릭 시 이동 (기존 코드)
+        document.addEventListener("DOMContentLoaded", function () {
             const memberCards = document.querySelectorAll(".member-card");
             memberCards.forEach(card => {
-                card.addEventListener("click", function() {
+                card.addEventListener("click", function () {
                     const link = this.getAttribute("data-link");
                     if (link) {
                         window.location.href = link;
@@ -76,7 +95,75 @@
                 });
             });
         });
+
+        // ✅ 4. 등록하기 → Firestore 저장 + 카드 생성
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('member-form');
+            const memberList = document.getElementById('member-list');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('member-name').value.trim();
+                const intro = document.getElementById('member-intro').value.trim();
+                const mbti = document.getElementById('member-mbti').value.trim();
+                const strength = document.getElementById('member-strength').value.trim();
+                const blog = document.getElementById('member-blog').value.trim();
+                const style = document.getElementById('member-style').value.trim();
+                if (!name || !intro) return;
+
+                // 🔥 Firestore에 저장
+                await addDoc(collection(db, "members"), {
+                    name: name,
+                    intro: intro,
+                    mbti: mbti,
+                    strength: strength,
+                    blog: blog,
+                    style: style,
+                    createdAt: new Date()
+                });
+
+                // 🧱 카드 생성
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.innerHTML = `
+            <div class="card h-100 member-card shadow" data-link="member.html">
+                <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <p class="card-text">${intro}</p>
+                </div>
+            </div>
+            `;
+                memberList.appendChild(col);
+
+                form.reset();
+            });
+
+            // ✅ 5. 페이지 로드 시 Firestore 데이터 불러오기
+            async function loadMembers() {
+                const querySnapshot = await getDocs(collection(db, "members"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const col = document.createElement('div');
+                    col.className = 'col';
+                    col.innerHTML = `
+            <div class="card h-100 member-card shadow" data-link="member.html">
+                <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${data.name}</h5>
+                    <p class="card-text">${data.intro}</p>
+                </div>
+            </div>
+            `;
+                    memberList.appendChild(col);
+                });
+            }
+
+            loadMembers();
+        });
     </script>
+
 </head>
 <body>
 
@@ -91,6 +178,40 @@
     <div class="layout-fixed">
 
         <!-- 멤버 등록 코드 -->
+        <div class="card mx-auto shadow mt-4" style="max-width: 500px; border-radius: 10px;">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">멤버 등록</h4>        
+                <form id="member-form">
+                    <div class="mb-3">
+                        <label for="member-name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="member-name" placeholder="멤버 이름을 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-intro" class="form-label">한 줄 소개</label>
+                        <input type="text" class="form-control" id="member-intro" placeholder="간단한 소개를 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-mbti" class="form-label">MBTI</label>
+                        <input type="text" class="form-control" id="member-mbti" placeholder="예: ENFP" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-strength" class="form-label">나의 장점</label>
+                        <textarea class="form-control" id="member-strength" rows="2" placeholder="본인의 강점을 적어주세요" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-blog" class="form-label">블로그 주소</label>
+                        <input type="url" class="form-control" id="member-blog" placeholder="https://example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-style" class="form-label">스타일 / 협업 스타일</label>
+                        <textarea class="form-control" id="member-style" rows="2" placeholder="본인의 스타일을 적어주세요" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- 팀 소개 -->
         <div class="card mb-4 mx-auto shadow" style="max-width: 1080px;">
@@ -125,7 +246,7 @@
         </div>
     
         <!-- 팀원 소개 -->
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div id="member-list" class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col">
                 <div class="card h-100 member-card shadow" data-link="member.html">
                     <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top"
