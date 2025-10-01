@@ -119,6 +119,7 @@
         font-size: medium;
         margin: 0px;
         padding-bottom: 7px;
+        padding-left: 4px;
         border-bottom: 1px solid #ccc;
       }
 
@@ -130,12 +131,14 @@
     <script type="module">
       // Firebase SDK 라이브러리 가져오기
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
       import {
+        getFirestore,
         collection,
         addDoc,
+        getDocs,
+        getDoc,
+        doc,
       } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
       // Firebase 구성 정보 설정
       const firebaseConfig = {
@@ -153,39 +156,37 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      let docs = await getDocs(collection(db, "members"));
-      docs.forEach((doc) => {
-        let row = doc.data();
+      const params = new URLSearchParams(window.location.search);
+      const memberId = params.get("id");
+      console.log(memberId);
 
-        // 입력값 가져오기
-        let name = row["name"];
-        let mbti = row["mbti"];
-        let image = row["image"];
-        let content = row["content"];
+      if (memberId) {
+        const docRef = doc(db, "members", memberId);
+        const memberSnap = await getDoc(docRef);
 
-        let temp_html = `
-                    <div class="card mb-3" style="max-width: 900px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQN4RJTrFs8g2czpTEQSVxRj3TS8nJo3tYC_pdF_cu3Rbtls5iuPYoDCyhdt1yxLY6WStReFUkJT9B9gECNAJ_1U66gJ7ffFtiVxCb_Y_YC"
-                class="img-fluid rounded-start"
-                id="member-img"
-                alt="멤버 사진"
-              />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">이름: ${name}</h5>
-                <p class="member-name">dfsdfsd</p>
-                <p class="member-mbti">mbti: ${mbti}</p>
-                <p class="member-mbti">자기소개: ${content}</p>
+        if (memberSnap.exists()) {
+          const data = memberSnap.data();
+          let name = data["name"];
+          let mbti = data["mbti"];
+
+          let temp_html = `
+            <div class="card mb-3" style="max-width: 900px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="..." class="img-fluid rounded-start" alt="멤버 사진"/>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">이름: ${name}</h5>
+                    <p class="member-mbti">mbti: ${mbti}</p>
+                    <p class="member-mbti">자기소개: ...</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>`;
-        $(".member-card").append(temp_html);
-      });
+            </div>`;
+          $(".member-card").append(temp_html);
+        }
+      }
 
       $("#register-btn").click(async function () {
         let name = $("#name-register").val();
@@ -194,6 +195,7 @@
         let doc = {
           name: name,
           content: content,
+          memberId: memberId,
         };
 
         await addDoc(collection(db, "comments"), doc);
@@ -201,30 +203,33 @@
         window.location.reload();
       });
 
-      docs = await getDocs(collection(db, "comments"));
+      // 댓글 불러오기
+      let docs = await getDocs(collection(db, "comments"));
       docs.forEach((doc) => {
         let row = doc.data();
 
-        // 입력값 가져오기
-        let name = row["name"];
-        let content = row["content"];
-        let temp_html = ``;
+        if (row.memberId === memberId) {
+          // 입력값 가져오기
+          let name = row["name"];
+          let content = row["content"];
+          let temp_html = ``;
 
-        if (!name) {
-          temp_html = `
-          <div class="comment">
-            <p class="name">User</p>
-            <p class="content">${content}</p>
-          </div>`;
-        } else {
-          temp_html = `
-          <div class="comment">
-            <p class="name">${name}</p>
-            <p class="content">${content}</p>
-          </div>`;
+          if (!name) {
+            temp_html = `
+            <div class="comment">
+              <p class="name">User</p>
+              <p class="content">${content}</p>
+            </div>`;
+          } else {
+            temp_html = `
+            <div class="comment">
+              <p class="name">${name}</p>
+              <p class="content">${content}</p>
+            </div>`;
+          }
+
+          $(".comment-wrap").append(temp_html);
         }
-
-        $(".comment-wrap").append(temp_html);
       });
     </script>
   </head>
@@ -252,6 +257,7 @@
         <input
           type="text"
           id="content-register"
+          maxlength="140"
           placeholder="방명록을 작성하세요."
         />
       </div>
