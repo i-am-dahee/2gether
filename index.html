@@ -1,120 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2gether</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .mypostingbox {
-
-            width: 600px;
-            margin: 40px auto 0px auto;
-            padding: 50px;
-            box-shadow: 0px 0px 3px 0px black;
-            border-radius: 5px;
-
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .mybtn {
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            background-color: #f5f5f5;
+            min-height: 100vh;
         }
 
-        .mybtn {
-            margin-top: 20px;
+        .layout-fixed {
+            width: 1080px;
         }
 
-        #K2 {
-            position: absolute;
-            top: 10px;
-            left: 1800px;
+        .member-row {
+            margin-top: 2rem;
+        }
+
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .member-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .member-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* 상단바 전체 영역 */
+        .top-nav {
+            width: 100%;
+            background-color: #eac2d8;   
+            color: white;
+            padding: 10px 0;
+        }
+
+        /* 안쪽 고정 레이아웃 (본문과 폭 맞추기) */
+        .nav-container {
+            width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: bold;
         }
     </style>
 
-    <script>
-        function openclose() {
-            $('#postingbox').toggle();
-        }
-        function makeCard() {
-            let L1 = $('#L1').val();
-            let L2 = $('#L2').val();
-            let L3 = $('#L3').val();
-            let L4 = $('#L4').val();
-            let L5 = $('#L5').val();
-            let L6 = $('#L6').val();
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-            let temp_html = ` 
-  <div class="col">
-    <div class="card">
-      <img src="${L4}" 
-      class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">${L1}</h5>
-        <p class="card-text">${L2}</p>
-        <p class="card-text">${L3}</p>
-        <p class="card-text">${L5}</p>
-        <p class="card-text">${L6}</p>
-      </div>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuKi0vMgv95vPCfOgHpwtoX4T6J8C9fig",
+            authDomain: "sparta-ad55d.firebaseapp.com",
+            projectId: "sparta-ad55d",
+            storageBucket: "sparta-ad55d.firebasestorage.app",
+            messagingSenderId: "55430798216",
+            appId: "1:55430798216:web:822361d1bfade7166a383d",
+            measurementId: "G-691C86ZDWT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.member-card'); 
+            if (!card) return; 
+
+            const link = card.getAttribute('data-link');
+            if (link) {
+                window.location.href = link;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('member-form-toggle');
+            const formCard  = document.getElementById('member-form-card');
+            const form = document.getElementById('member-form');
+            const memberList = document.getElementById('member-list');
+
+            toggleButton.addEventListener('click', () => {
+                formCard.classList.toggle('d-none');
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('member-name').value.trim();
+                const intro = document.getElementById('member-intro').value.trim();
+                const mbti = document.getElementById('member-mbti').value.trim();
+                const strength = document.getElementById('member-strength').value.trim();
+                const blog = document.getElementById('member-blog').value.trim();
+                const style = document.getElementById('member-style').value.trim();
+                const image = document.getElementById('member-image').value.trim();
+                if (!name || !intro) return;
+
+                await addDoc(collection(db, "members"), {
+                    name: name,
+                    intro: intro,
+                    mbti: mbti,
+                    strength: strength,
+                    blog: blog,
+                    style: style,
+                    image: image,
+                    createdAt: new Date()
+                });
+
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.innerHTML = `
+    <div class="card member-card shadow" data-link="member-detail.html">
+        <div class="ratio ratio-4x3">
+            <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
+                onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-1">${name}</h5>
+            <p class="card-text mb-0">${intro}</p>
+        </div>
     </div>
-  </div>`;
-            $('#card2').append(temp_html);
-        }
+`;
+
+                memberList.appendChild(col);
+
+                form.reset();
+                formCard.classList.add('d-none');
+            });
+
+            async function loadMembers() {
+                const querySnapshot = await getDocs(collection(db, "members"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const col = document.createElement('div');
+                    col.className = 'col';
+                    col.innerHTML = `
+    <div class="card member-card shadow" data-link="member-detail.html">
+        <div class="ratio ratio-4x3">
+            <img src="${data.image}" class="w-100 h-100 object-fit-cover" alt="${data.name}"
+                onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-1">${data.name}</h5>
+            <p class="card-text mb-0">${data.intro}</p>
+        </div>
+    </div>
+`;
+
+                    memberList.appendChild(col);
+                });
+            }
+
+            loadMembers();
+        });
     </script>
 </head>
-
 <body>
-
-
-    <div class="mypostingbox" id="postingbox">
-        <h5>이름</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L1" placeholder="이름">
-        <!-- <label for="floatingInput,">이름</label> -->
-        <!-- </div> -->
-        <h5>자신에대한 이미지</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L2" placeholder="자신에대한 이미지">
-        <!-- <label for="floatingInput">자신에대한 이미지</label> -->
-        <!-- </div> -->
-        <h5>블로그 링크</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L3" placeholder="블로그 링크">
-        <!-- <label for="floatingInput">블로그 링크</label> -->
-        <!-- </div> -->
-        <h5>이미지 주소</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L4" placeholder="이미지 주소">
-        <!-- <label for="floatingInput">이미지 주소</label> -->
-        <!-- </div> -->
-        <h5>한줄소개</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L5" placeholder="한줄소개">
-        <!-- <label for="floatingInput">한줄소개</label> -->
-        <!-- </div> -->
-        <h5>MBTI</h5>
-        <!-- <div class="form-floating mb-3"> -->
-        <input type="email" class="form-control" id="L6" placeholder="MBTI">
-        <!-- <label for="floatingInput">MBTI</label> -->
-        <!-- </div> -->
-
-        <div class="mybtn">
-            <button class="btn btn-dark w-100" onclick="makeCard()">Submit</button>
+    <!-- 상단 바 -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <div class="team-name">🍨 2gether</div>
+            <button id="member-form-toggle" class="btn btn-light btn-sm">팀원 등록</button>
         </div>
-    </div>
-    <div class="mycards">
-        <div id="card2" class="row row-cols-1 row-cols-md-4 g-4">
- 
+    </header>
+
+    <div class="layout-fixed">
+
+        <!-- 멤버 등록 코드 -->
+        <div id="member-form-card" class="card mx-auto shadow mt-5 mb-5 d-none" style="max-width: 500px; border-radius: 10px;">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">멤버 등록</h4>        
+                <form id="member-form">
+                    <div class="mb-3">
+                        <label for="member-name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="member-name" placeholder="멤버 이름을 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-intro" class="form-label">한 줄 소개</label>
+                        <input type="text" class="form-control" id="member-intro" placeholder="간단한 소개를 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-mbti" class="form-label">MBTI</label>
+                        <input type="text" class="form-control" id="member-mbti" placeholder="예: ENFP" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-strength" class="form-label">나의 장점</label>
+                        <textarea class="form-control" id="member-strength" rows="2" placeholder="본인의 강점을 적어주세요" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-blog" class="form-label">블로그 주소</label>
+                        <input type="url" class="form-control" id="member-blog" placeholder="https://example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-style" class="form-label">스타일 / 협업 스타일</label>
+                        <textarea class="form-control" id="member-style" rows="2" placeholder="본인의 스타일을 적어주세요" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-image" class="form-label">이미지 URL</label>
+                        <input type="url" class="form-control" id="member-image" placeholder="https://example.com/profile.jpg" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4">등록하기</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+
+        <!-- 팀 소개 -->
+        <div class="card mt-5 mb-5 mx-auto shadow" style="max-width: 1080px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://i.namu.wiki/i/j9nHHoKNMs_NRsXR5rDxKfwg-lNL8f-bcpLPxfmotdqeTXpeCEscwfyPmgX_X4WvCJmpGVGPZxrbVaAEuZLVOw.webp"
+                        class="img-fluid rounded-start h-100" alt="팀 이미지"
+                        style="object-fit: cover; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                </div>
+                <div class="col-md-8 d-flex flex-column justify-content-center">
+                    <div class="card-body text-center">
+                        <h3 class="mb-3" style="line-height: 1.6;">
+                            🌱 <strong>서로의 첫걸음을 응원하며</strong><br>
+                            💻 <strong>실전 프로젝트로 함께 성장하는 팀</strong><br>
+                            🍨 <span style="font-size: 1.8rem; font-weight: 700;">2gether</span> 🍨 입니다!
+                        </h3>
+        
+                        <hr class="w-50 mx-auto mb-3">
+        
+                        <div class="text-start ps-4" style="display: inline-block; text-align: left;">
+                            <p class="fw-bold mb-2">🤙 <strong>우리의 규칙</strong></p>
+                            <ul class="mb-0">
+                                <li>14시, 19시 데일리 스크럼</li>
+                                <li>불참 시 사유 공유하기</li>
+                                <li>모르는 부분이 있을 시 질문하기</li>
+                                <li>인사 건네기</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- 팀원 소개 -->
+        <div id="member-list" class="row row-cols-1 row-cols-md-4 g-4">
+            <!-- <div class="col">
+                <div class="card h-100 member-card shadow" data-link="member.html">
+                    <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top"
+                        alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Member 1</h5>
+                        <p class="card-text">안녕하세요!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 member-card shadow" data-link="member.html">
+                    <img src="https://i.pinimg.com/1200x/61/52/56/615256cf03c973ccc918c680ff1d79fb.jpg" class="card-img-top"
+                        alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Member 2</h5>
+                        <p class="card-text">반가워요!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 member-card shadow" data-link="member.html">
+                    <img src="https://i.pinimg.com/736x/68/71/51/687151fcefcd90788c159584a3a61f4c.jpg" class="card-img-top"
+                        alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Member 3</h5>
+                        <p class="card-text">수고하셨어요!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 member-card shadow" data-link="member.html">
+                    <img src="https://i.pinimg.com/1200x/17/8e/77/178e771f1fc41396116f382f9d13d185.jpg" class="card-img-top"
+                        alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Member 4</h5>
+                        <p class="card-text">다음에 또 만나요!</p>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div> 
 </body>
-
-<div class="mytitle">
-    <buttontype="button" class="btn btn-dark" id="K2" onclick="openclose()">맴버등록</button>
-
-</div>
+</html>
