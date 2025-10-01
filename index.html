@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+      .member-card {
+        background-color: lightblue;
+        height: 250px;
+        width: 200px;
+        border: 1px solid white;
+        border-radius: 3px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+
+    <script type="module">
+      // Firebase SDK 라이브러리 가져오기
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import {
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+      // Firebase 구성 정보 설정
+      const firebaseConfig = {
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        apiKey: "AIzaSyAaN0oP7dRX_fkIOGG6RZiq-w-XndV6c1k",
+        authDomain: "sparta-35436.firebaseapp.com",
+        projectId: "sparta-35436",
+        storageBucket: "sparta-35436.firebasestorage.app",
+        messagingSenderId: "337029385282",
+        appId: "1:337029385282:web:bc784eb4944380588e71db",
+        measurementId: "G-6WRJLTVW0J",
+      };
+
+      // Firebase 인스턴스 초기화
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      let docs = await getDocs(collection(db, "members"));
+      docs.forEach((doc) => {
+        console.log(doc.data());
+        let row = doc.data();
+
+        // 입력값 가져오기
+        let mbti = row["mbti"];
+        let name = row["name"];
+
+        let temp_html = `
+        <div class="member-card" data-member-id="${doc.id}">
+          <a href="member-detail.html">${name}</a>
+          <span>${mbti}</span>
+        </div>`;
+
+        $(".member-card-wrap").append(temp_html);
+      });
+
+      // 멤버 카드 클릭 시 
+      $(document).on("click", ".member-card", function () {
+        let memberId = $(this).data("member-id"); // 카드에 저장된 doc.id
+        console.log(memberId);
+        window.location.href = `member-detail.html?id=${memberId}`;
+      });
+    </script>
+  </head>
+  <body>
+    <div class="member-card-wrap"></div>
+  </body>
+</html>
