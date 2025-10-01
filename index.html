@@ -68,7 +68,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-        // ✅ 1. Firebase 설정
         const firebaseConfig = {
             apiKey: "AIzaSyBuKi0vMgv95vPCfOgHpwtoX4T6J8C9fig",
             authDomain: "sparta-ad55d.firebaseapp.com",
@@ -79,22 +78,19 @@
             measurementId: "G-691C86ZDWT"
         };
 
-        // ✅ 2. Firebase & Firestore 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ✅ 3. 카드 클릭 시 이동 (기존 코드)
-            document.addEventListener('click', (e) => {
-                const card = e.target.closest('.member-card'); // 클릭된 요소의 부모 중 .member-card 찾기
-                if (!card) return; // 카드가 아니면 무시
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.member-card'); 
+            if (!card) return; 
 
-                const link = card.getAttribute('data-link');
-                if (link) {
-                    window.location.href = link;
-                }
-            });
+            const link = card.getAttribute('data-link');
+            if (link) {
+                window.location.href = link;
+            }
+        });
 
-        // ✅ 4. 등록하기 → Firestore 저장 + 카드 생성
         document.addEventListener('DOMContentLoaded', () => {
             const toggleButton = document.getElementById('member-form-toggle');
             const formCard  = document.getElementById('member-form-card');
@@ -114,9 +110,9 @@
                 const strength = document.getElementById('member-strength').value.trim();
                 const blog = document.getElementById('member-blog').value.trim();
                 const style = document.getElementById('member-style').value.trim();
+                const image = document.getElementById('member-image').value.trim();
                 if (!name || !intro) return;
 
-                // 🔥 Firestore에 저장
                 await addDoc(collection(db, "members"), {
                     name: name,
                     intro: intro,
@@ -124,28 +120,31 @@
                     strength: strength,
                     blog: blog,
                     style: style,
+                    image: image,
                     createdAt: new Date()
                 });
 
-                // 🧱 카드 생성
                 const col = document.createElement('div');
                 col.className = 'col';
                 col.innerHTML = `
-            <div class="card h-100 member-card shadow" data-link="member.html">
-                <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">${name}</h5>
-                    <p class="card-text">${intro}</p>
-                </div>
-            </div>
-            `;
+  <div class="card member-card shadow" data-link="member.html">
+    <div class="ratio ratio-4x3">
+      <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
+           onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title mb-1">${name}</h5>
+      <p class="card-text mb-0">${intro}</p>
+    </div>
+  </div>
+`;
+
                 memberList.appendChild(col);
 
                 form.reset();
                 formCard.classList.add('d-none');
             });
 
-            // ✅ 5. 페이지 로드 시 Firestore 데이터 불러오기
             async function loadMembers() {
                 const querySnapshot = await getDocs(collection(db, "members"));
                 querySnapshot.forEach((doc) => {
@@ -153,14 +152,18 @@
                     const col = document.createElement('div');
                     col.className = 'col';
                     col.innerHTML = `
-            <div class="card h-100 member-card shadow" data-link="member.html">
-                <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">${data.name}</h5>
-                    <p class="card-text">${data.intro}</p>
-                </div>
-            </div>
-            `;
+  <div class="card member-card shadow" data-link="member.html">
+    <div class="ratio ratio-4x3">
+      <img src="${data.image}" class="w-100 h-100 object-fit-cover" alt="${data.name}"
+           onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title mb-1">${data.name}</h5>
+      <p class="card-text mb-0">${data.intro}</p>
+    </div>
+  </div>
+`;
+
                     memberList.appendChild(col);
                 });
             }
@@ -181,7 +184,7 @@
     <div class="layout-fixed">
 
         <!-- 멤버 등록 코드 -->
-        <div id="member-form-card" class="card mx-auto shadow mt-4 d-none" style="max-width: 500px; border-radius: 10px;">
+        <div id="member-form-card" class="card mx-auto shadow mt-5 mb-5 d-none" style="max-width: 500px; border-radius: 10px;">
             <div class="card-body">
                 <h4 class="card-title text-center mb-4">멤버 등록</h4>        
                 <form id="member-form">
@@ -209,6 +212,10 @@
                         <label for="member-style" class="form-label">스타일 / 협업 스타일</label>
                         <textarea class="form-control" id="member-style" rows="2" placeholder="본인의 스타일을 적어주세요" required></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label for="member-image" class="form-label">이미지 URL</label>
+                        <input type="url" class="form-control" id="member-image" placeholder="https://example.com/profile.jpg" required>
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary px-4">등록하기</button>
                     </div>
@@ -217,7 +224,7 @@
         </div>
 
         <!-- 팀 소개 -->
-        <div class="card mb-4 mx-auto shadow" style="max-width: 1080px;">
+        <div class="card mt-5 mb-5 mx-auto shadow" style="max-width: 1080px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="https://i.namu.wiki/i/j9nHHoKNMs_NRsXR5rDxKfwg-lNL8f-bcpLPxfmotdqeTXpeCEscwfyPmgX_X4WvCJmpGVGPZxrbVaAEuZLVOw.webp"
@@ -250,7 +257,7 @@
     
         <!-- 팀원 소개 -->
         <div id="member-list" class="row row-cols-1 row-cols-md-4 g-4">
-            <div class="col">
+            <!-- <div class="col">
                 <div class="card h-100 member-card shadow" data-link="member.html">
                     <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top"
                         alt="...">
@@ -289,7 +296,7 @@
                         <p class="card-text">다음에 또 만나요!</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div> 
 </body>
