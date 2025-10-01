@@ -17,7 +17,7 @@
             box-shadow: 0px 0px 3px 0px transparent;
             border-radius: 5px;
             background-color: white;
-             box-shadow: 5px 5px 5px 5px gray;
+            box-shadow: 5px 5px 5px 5px gray;
         }
 
         .mybtn {
@@ -135,11 +135,6 @@
             opacity: 0.1;
         }
 
-        .coincell {
-             position: absolute;
-            background-color: green;
-            border-radius: 300px;
-        }
 
     </style>
     <script type="module">
@@ -160,6 +155,7 @@
             appId: "1:504198398272:web:ef43d313786f60603f3aa5",
             measurementId: "G-FBMWMTPZQM"
         };
+
 
 
         // Firebase 인스턴스 초기화
@@ -233,6 +229,7 @@
                 document.getElementById("v_log").innerText = data.v_log;
                 document.getElementById("own_style").innerText = data.own_style;
                 document.getElementById("work_style").innerText = data.work_style;
+                document.getElementById("mem_image").src = data.mem_image_url;
 
             } else {
                 console.log("해당 멤버 문서를 찾을 수 없습니다.")
@@ -255,12 +252,10 @@
         </nav>
     </div>
     <!-- 내비게이션 바 부트스트랩 -->
-<div class="coincell">
-text
-</div>
+
     <div class="membercard">
         <div class="first_box">
-            <img src="${image}" class="card-img-top" alt="...">
+            <img id="mem_image" src="${image}" class="card-img-top" alt="...">
         </div>
         <!-- first_box 조원 사진 구역 -->
 
