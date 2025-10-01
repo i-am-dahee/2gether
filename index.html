@@ -84,22 +84,26 @@
         const db = getFirestore(app);
 
         // ✅ 3. 카드 클릭 시 이동 (기존 코드)
-        document.addEventListener("DOMContentLoaded", function () {
-            const memberCards = document.querySelectorAll(".member-card");
-            memberCards.forEach(card => {
-                card.addEventListener("click", function () {
-                    const link = this.getAttribute("data-link");
-                    if (link) {
-                        window.location.href = link;
-                    }
-                });
+            document.addEventListener('click', (e) => {
+                const card = e.target.closest('.member-card'); // 클릭된 요소의 부모 중 .member-card 찾기
+                if (!card) return; // 카드가 아니면 무시
+
+                const link = card.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link;
+                }
             });
-        });
 
         // ✅ 4. 등록하기 → Firestore 저장 + 카드 생성
         document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('member-form-toggle');
+            const formCard  = document.getElementById('member-form-card');
             const form = document.getElementById('member-form');
             const memberList = document.getElementById('member-list');
+
+            toggleButton.addEventListener('click', () => {
+                formCard.classList.toggle('d-none');
+            });
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -138,6 +142,7 @@
                 memberList.appendChild(col);
 
                 form.reset();
+                formCard.classList.add('d-none');
             });
 
             // ✅ 5. 페이지 로드 시 Firestore 데이터 불러오기
@@ -163,22 +168,20 @@
             loadMembers();
         });
     </script>
-
 </head>
 <body>
-
     <!-- 상단 바 -->
     <header class="top-nav">
         <div class="nav-container">
             <div class="team-name">🍨 2gether</div>
-            <button class="btn btn-light btn-sm">팀원 등록</button>
+            <button id="member-form-toggle" class="btn btn-light btn-sm">팀원 등록</button>
         </div>
     </header>
 
     <div class="layout-fixed">
 
         <!-- 멤버 등록 코드 -->
-        <div class="card mx-auto shadow mt-4" style="max-width: 500px; border-radius: 10px;">
+        <div id="member-form-card" class="card mx-auto shadow mt-4 d-none" style="max-width: 500px; border-radius: 10px;">
             <div class="card-body">
                 <h4 class="card-title text-center mb-4">멤버 등록</h4>        
                 <form id="member-form">
