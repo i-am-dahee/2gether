@@ -127,16 +127,16 @@
                 const col = document.createElement('div');
                 col.className = 'col';
                 col.innerHTML = `
-  <div class="card member-card shadow" data-link="member.html">
-    <div class="ratio ratio-4x3">
-      <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
-           onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+    <div class="card member-card shadow" data-link="member-detail.html">
+        <div class="ratio ratio-4x3">
+            <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
+                onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-1">${name}</h5>
+            <p class="card-text mb-0">${intro}</p>
+        </div>
     </div>
-    <div class="card-body">
-      <h5 class="card-title mb-1">${name}</h5>
-      <p class="card-text mb-0">${intro}</p>
-    </div>
-  </div>
 `;
 
                 memberList.appendChild(col);
@@ -152,16 +152,16 @@
                     const col = document.createElement('div');
                     col.className = 'col';
                     col.innerHTML = `
-  <div class="card member-card shadow" data-link="member.html">
-    <div class="ratio ratio-4x3">
-      <img src="${data.image}" class="w-100 h-100 object-fit-cover" alt="${data.name}"
-           onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+    <div class="card member-card shadow" data-link="member-detail.html">
+        <div class="ratio ratio-4x3">
+            <img src="${data.image}" class="w-100 h-100 object-fit-cover" alt="${data.name}"
+                onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-1">${data.name}</h5>
+            <p class="card-text mb-0">${data.intro}</p>
+        </div>
     </div>
-    <div class="card-body">
-      <h5 class="card-title mb-1">${data.name}</h5>
-      <p class="card-text mb-0">${data.intro}</p>
-    </div>
-  </div>
 `;
 
                     memberList.appendChild(col);
