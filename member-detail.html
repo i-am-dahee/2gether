@@ -283,27 +283,28 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      
-        const urlParams = new URLSearchParams(window.location.search);
-        const memberId = urlParams.get("id");
+      // url에서 파이어베이스 문서 id 가져오기
+      const urlParams = new URLSearchParams(window.location.search);
+      const memberId = urlParams.get("id");
 
-        const docRef = doc(db, "members", memberId);
-        const memberSnap = await getDoc(docRef);
+      const docRef = doc(db, "members", memberId);
+      const memberSnap = await getDoc(docRef);
 
-        if (memberSnap.exists()) {
-          const data = memberSnap.data();
+      if (memberSnap.exists()) {
+        const data = memberSnap.data();
 
-          document.getElementById("mem_name").innerText = data.mem_name;
-          document.getElementById("mem_mbti").innerText = data.mem_mbti;
-          document.getElementById("mem_point").innerText = data.mem_point;
-          document.getElementById("v_log").innerText = data.v_log;
-          document.getElementById("own_style").innerText = data.own_style;
-          document.getElementById("work_style").innerText = data.work_style;
-          document.getElementById("mem_image").src = data.mem_image_url;
-        } else {
-          console.log("해당 멤버 문서를 찾을 수 없습니다.");
-        }
+        document.getElementById("member-name").innerText = data["name"];
+        document.getElementById("member-mbti").innerText = data["mbti"];
+        document.getElementById("member-intro").innerText = data["intro"];
+        document.getElementById("member-strength").innerText = data["strength"];
+        document.getElementById("member-blog").innerText = data["blog"];
+        document.getElementById("member-style").innerText = data["style"];
+        document.getElementById("member-image").src = data["image"];
+      } else {
+        console.log("해당 멤버 문서를 찾을 수 없습니다.");
+      }
 
+      // 등록하기 버튼
       $("#register-btn").click(async function () {
         let name = $("#name-register").val();
         let content = $("#content-register").val();
@@ -332,20 +333,30 @@
 
           if (!name) {
             temp_html = `
-            <div class="comment">
-              <p class="name">User</p>
+            <div class="comment" data-id="${doc.id}">
+              <div>
+                <p class="name">User</p>
+                <button class="delete-btn" type="button">삭제하기</button>
+              </div>
               <p class="content">${content}</p>
             </div>`;
           } else {
             temp_html = `
-            <div class="comment">
-              <p class="name">${name}</p>
+            <div class="comment" data-id="${doc.id}">
+              <div>
+                <p class="name">${name}</p>
+                <button class="delete-btn" type="button">삭제하기</button>
+              </div>
               <p class="content">${content}</p>
             </div>`;
           }
+          $(".comment-wrap").append(temp_html);
+        }
+      });
 
-          $(document).on("click", ".del-btn", async function () {
-            let commentCard = $(this).closest(".comment-card");
+      // 댓글 삭제 버튼
+      $(document).on("click", ".delete-btn", async function () {
+            let commentCard = $(this).closest(".comment");
             let commentId = commentCard.data("id");
 
             if (!commentId) {
@@ -353,14 +364,10 @@
               return;
             }
 
-            await deleteDoc(doc(db, "name_comments", commentId));
+            await deleteDoc(doc(db, "comments", commentId));
             alert("댓글이 삭제되었습니다.");
             window.location.reload();
           });
-
-          $(".comment-wrap").append(temp_html);
-        }
-      });
     </script>
   </head>
 
@@ -374,34 +381,52 @@
       <div class="first_box">
         <img id="mem_image" src="${image}" class="card-img-top" alt="..." />
       </div>
-      
+
       <!-- 조원 본문 구역-->
       <div class="second_box" id="member_box">
         <div class="col">
           <div class="mem_card h-100">
             <div class="card-body">
-              <h5 class="card-title" id="mem_name" style="font-size: 50px">
-                ${name}
-              </h5>
-              <p class="card-text_1" id="mem_mbti" style="font-size: 30px">
-                ${mbti}
-              </p>
-              <p class="card-text_2" id="mem_point" style="font-size: 29px">
-                ${strong_point}
-              </p>
-              <p class="card-text_3" id="v_log" style="font-size: 28px">
-                ${v_log}
-              </p>
-              <p class="card-text_4" id="own_style" style="font-size: 27px">
-                ${own_style}
-              </p>
-              <p class="card-text_5" id="work_style" style="font-size: 26px">
-                ${work_style}
-              </p>
+              <h5
+                class="card-title"
+                id="member-name"
+                style="font-size: 50px"
+              ></h5>
+              <p
+                class="card-text_1"
+                id="member-mbti"
+                style="font-size: 30px"
+              ></p>
+              <p
+                class="card-text_2"
+                id="member-intro"
+                style="font-size: 29px"
+              ></p>
+              <p
+                class="card-text_3"
+                id="member-strength"
+                style="font-size: 28px"
+              ></p>
+              <p
+                class="card-text_3"
+                id="member-blog"
+                style="font-size: 28px"
+              ></p>
+              <p
+                class="card-text_4"
+                id="member-style"
+                style="font-size: 27px"
+              ></p>
+              <p
+                class="card-text_5"
+                id="member-image"
+                style="font-size: 26px"
+              ></p>
             </div>
           </div>
         </div>
       </div>
+
       <!--조원 설명 second_box  -->
       <div class="circle_one">
         <img
