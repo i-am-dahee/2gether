@@ -95,7 +95,7 @@
             transition: all 0.2s;
         }
 
-        .top-nav.yy-btn:hover {
+        .top-nav .yy-btn:hover {
             background: var(--yy-burgundy);
             color: #fff;
         }
@@ -151,6 +151,8 @@
             collection,
             addDoc,
             getDocs,
+            query,
+            orderBy
         } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
         // jiwon 변경사항: 파이어베이스 정보 변경
@@ -223,7 +225,7 @@
       </div>
     </div>
   `;
-                memberList.appendChild(col);
+                memberList.prepend(col);
 
                 // ✅ 폼 초기화 & 닫기
                 form.reset();
@@ -232,7 +234,8 @@
 
 
             async function loadMembers() {
-                const querySnapshot = await getDocs(collection(db, "members"));
+                const q = query(collection(db, "members"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const col = document.createElement("div");
