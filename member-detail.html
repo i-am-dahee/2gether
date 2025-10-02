@@ -1,400 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>멤버 상세 페이지</title>
-    <!-- JQuery import 하기 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
 
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap');
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>멤버 상세 페이지</title>
+  <!-- JQuery import 하기 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-      @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=IBM+Plex+Sans+KR&family=Jua&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=Jua&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-      * {
-        font-family: "Chiron GoRound TC", sans-serif;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+    * {
+      font-family: "Chiron GoRound TC", sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #f5f5f5;
-        min-height: 100vh;
-      }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f5f5f5;
+      min-height: 100vh;
+    }
 
-      .layout-fixed {
-        width: 1080px;
-      }
+    .layout-fixed {
+      width: 1080px;
+    }
 
-      /* 상단바 전체 영역 */
-      .top-nav {
-        width: 100%;
-        background-color: #eac2d8;
-        color: white;
-        padding: 10px 0;
-      }
+    /* 상단바 전체 영역 */
+    .top-nav {
+      width: 100%;
+      background-color: #eac2d8;
+      color: white;
+      padding: 10px 0;
+    }
 
-      /* 안쪽 고정 레이아웃 (본문과 폭 맞추기) */
-      .nav-container {
-        width: 1080px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+    /* 안쪽 고정 레이아웃 (본문과 폭 맞추기) */
+    .nav-container {
+      width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-      .nav-container > a {
-        color: inherit;
-        text-decoration: none;
-      }
+    .nav-container>a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-      .team-name {
-        font-family: "Bitcount Prop Double Ink", system-ui;
-        font-size: 1.25rem;
-        font-weight: bold;
-      }
+    .team-name {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
 
-      .header {
-        background-color: lightsteelblue;
-        height: 50px;
-      }
+    .header {
+      background-color: lightsteelblue;
+      height: 50px;
+    }
 
-      #home {
-        font-size: 27px;
-      }
+    #home {
+      font-size: 27px;
+    }
 
-      .member-card .card {
-        width: 800px; /* 카드 가로 */
-        height: 500px;
-        margin: 30px auto; /* 화면 가운데 정렬 + 위아래 여백 */
-      }
+    .member-card .card {
+      width: 800px;
+      /* 카드 가로 */
+      height: 500px;
+      margin: 30px auto;
+      /* 화면 가운데 정렬 + 위아래 여백 */
+    }
 
-      #comment-title {
-        margin: 20px 0px 20px 101px;
-        font-size: 25px;
-      }
+    #comment-title {
+      margin: 20px 0px 20px 101px;
+      font-size: 25px;
+    }
 
-      .comment-container {
-        width: 1000px;
-        align-items: center;
-        justify-content: center;
+    .comment-container {
+      width: 1000px;
+      align-items: center;
+      justify-content: center;
 
-        margin: 30px auto;
-      }
+      margin: 30px auto;
+    }
 
-      .comment-register {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .comment-register {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-        border-radius: 5px;
-      }
+      border-radius: 5px;
+    }
 
-      .comment-register > input {
-        display: block;
-        margin: 5px;
-      }
+    .comment-register>input {
+      display: block;
+      margin: 5px;
+    }
 
-      #name-register {
-        width: 200px;
-        height: 30px;
+    #name-register {
+      width: 200px;
+      height: 30px;
 
-        margin-left: 5px;
-        padding: 10px 0px 10px 7px;
+      margin-left: 5px;
+      padding: 10px 0px 10px 7px;
 
-        border: 1px solid lightgray;
-        border-radius: 5px;
-      }
+      border: 1px solid lightgray;
+      border-radius: 5px;
+    }
 
-      #content-register {
-        width: 80%;
-        height: 120px;
+    #content-register {
+      width: 80%;
+      height: 120px;
 
-        padding: 5px 0px 5px 10px;
+      padding: 5px 0px 5px 10px;
 
-        border: 1px solid lightgray;
-        border-radius: 5px;
-      }
+      border: 1px solid lightgray;
+      border-radius: 5px;
+    }
 
-      #register-btn {
-        background-color: #f095c7;
-        color: white;
-        height: 40px;
-        width: 85px;
+    #register-btn {
+      background-color: #f095c7;
+      color: white;
+      height: 40px;
+      width: 85px;
 
-        display: inline;
-        margin: 0px 5px 10px 510px;
-        padding: 5px 5px 5px 5px;
+      display: inline;
+      margin: 0px 5px 10px 510px;
+      padding: 5px 5px 5px 5px;
 
-        border: 1px solid #e593c0;
-        border-radius: 5px;
-      }
+      border: 1px solid #e593c0;
+      border-radius: 5px;
+    }
 
-      #register-btn:hover{
-        background-color: lightgray;
-        border: 1px solid lightgray;
-      }
+    .comment {
+      max-width: 800px;
+      min-height: 50px;
+      /* 내용이 없을 때 최소 높이 */
+      max-height: 150px;
+      /* 너무 길면 스크롤 처리 가능 */
+      overflow: auto;
+      /* max-height를 넘어가면 스크롤 */
+      margin-bottom: 10px;
+      margin-top: 10px;
+      margin-left: 100px;
+    }
 
-      .comment {
-        max-width: 800px;
-        min-height: 50px; /* 내용이 없을 때 최소 높이 */
-        max-height: 150px; /* 너무 길면 스크롤 처리 가능 */
-        overflow: auto; /* max-height를 넘어가면 스크롤 */
-        margin-bottom: 10px;
-        margin-top: 10px;
-        margin-left: 100px;
-      }
+    .name-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-      .name-wrap {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      height: 25px;
+      padding: 1px 0px 2px 5px;
+      background-color: #eac2d8;
+      font-size: medium;
+      border-radius: 2px;
+    }
 
-        height: 25px;
-        padding: 1px 0px 2px 5px;
-        background-color: #eac2d8;
-        font-size: medium;
-        border-radius: 2px;
-      }
+    .name {
+      height: 25px;
+      padding: 1px 0px 2px 5px;
+      background-color: #eac2d8;
+      font-size: medium;
+      border-radius: 3px;
+    }
 
-      .name {
-        height: 25px;
-        padding: 1px 0px 2px 5px;
-        background-color: #eac2d8;
-        font-size: medium;
-        border-radius: 3px;
-      }
+    .content {
+      height: 35px;
+      font-size: medium;
+      margin: 0px;
+      padding: 5px 0px 5px 4px;
+      border-bottom: 1px solid #ccc;
+    }
 
-      .content {
-        height: 35px;
-        font-size: medium;
-        margin: 0px;
-        padding: 5px 0px 5px 4px;
-        border-bottom: 1px solid #ccc;
-      }
+    #member-img {
+      height: 300px;
+    }
 
-      #member-img {
-        height: 300px;
-      }
+    .delete-btn {
+      background-color: #e999c5;
+      color: white;
 
-      .delete-btn {
-        background-color: #e999c5;
-        color: white;
+      font-size: 12px;
+      border: 1px solid #f095c7;
+      border-radius: 3px;
 
-        font-size: 12px;
-        border: 1px solid #f095c7;
-        border-radius: 3px;
-        
-        padding: 2px 6px;
-      }
+      padding: 2px 6px;
+    }
 
-      .delete-btn:hover {
-        background-color: lightgray;
-        border: 1px solid lightgray;
-      }
+    .mypostingbox {
+      width: 1700px;
+      margin: 30px auto 0px auto;
+      padding: 20px;
+      box-shadow: 0px 0px 3px 0px transparent;
+      border-radius: 5px;
+      background-color: white;
+      box-shadow: 5px 5px 5px 5px gray;
+    }
 
-      .mypostingbox {
-        width: 1700px;
-        margin: 30px auto 0px auto;
-        padding: 20px;
-        box-shadow: 0px 0px 3px 0px transparent;
-        border-radius: 5px;
-        background-color: white;
-        box-shadow: 5px 5px 5px 5px gray;
-      }
+    .mybtn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
 
-      .mybtn {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
-      }
+    .card {
+      width: 1700px;
+      margin: 15px auto 5px auto;
+      padding: 20px;
+      box-shadow: 0px 0px 3px 0px transparent;
+      border-radius: 5px;
+    }
 
-      .card {
-        width: 1700px;
-        margin: 15px auto 5px auto;
-        padding: 20px;
-        box-shadow: 0px 0px 3px 0px transparent;
-        border-radius: 5px;
-      }
+    .membercard {
+      height: 600px;
+      background-color: whitesmoke;
+      width: 1000px;
+      margin: 30px auto 5px auto;
+      padding: 20px;
+      box-shadow: 5px 5px 5px 5px gray;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      .membercard {
-        height: 700px;
-        background-color: whitesmoke;
-        width: 1700px;
-        margin: 30px auto 5px auto;
-        padding: 20px;
-        box-shadow: 5px 5px 5px 5px gray;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+    .first_box {
+      height: 500px;
+      width: 500px;
+      margin: 60px auto auto 30px;
+      padding: 20px;
+      box-shadow: 0px 0px 3px 0px transparent;
+      border-radius: 5px;
+    }
 
-      .first_box {
-        height: 500px;
-        width: 500px;
-        margin: 90px auto auto 30px;
-        padding: 20px;
-        box-shadow: 0px 0px 3px 0px transparent;
-        border-radius: 5px;
-      }
+    .first_box img {
+      border-radius: 1000px;
+    }
 
-      .second_box {
-        height: 500px;
-        background-color: whitesmoke;
-        width: 700px;
-        margin: 90px 200px auto 60px;
-        padding: 10px;
-        box-shadow: 0px auto 3px 0px transparent;
-        border-radius: 5px;
-      }
+    .second_box {
+      height: 500px;
+      background-color: transparent;
+      width: 700px;
+      margin: 20px 200px auto 60px;
+      padding: 10px;
+      box-shadow: 0px auto 3px 0px transparent;
+      border-radius: 5px;
+    }
 
-      .back_ground {
-        background-color: lightgray;
-      }
+    .back_ground {
+      background-color: lightgray;
+    }
 
-      .circle_one {
-        position: absolute;
-        background-color: lightgray;
-        border-top-left-radius: 200px;
-        width: 200px;
-        height: 200px;
-        margin: 500px auto auto 1500px;
-        opacity: 0.5;
-      }
+    .circle_one {
+      position: absolute;
+      background-color: transparent;
+      border-top-left-radius: 200px;
+      width: 200px;
+      height: 200px;
+      margin: 400px auto auto 800px;
+      opacity: 0.5;
+    }
 
-      .circle_two {
-        position: absolute;
-        background-color: lightgray;
-        border-top-left-radius: 300px;
-        width: 300px;
-        height: 300px;
-        margin: 400px auto auto 1400px;
-        opacity: 0.4;
-      }
+    .circle_two {
+      position: absolute;
+      background-color: lightgray;
+      border-top-left-radius: 300px;
+      width: 300px;
+      height: 300px;
+      margin: 300px auto auto 700px;
+      opacity: 0.4;
+    }
 
-      .circle_three {
-        position: absolute;
-        background-color: lightgray;
-        border-top-left-radius: 400px;
-        width: 400px;
-        height: 400px;
-        margin: 300px auto auto 1300px;
-        opacity: 0.3;
-      }
+    .circle_three {
+      position: absolute;
+      background-color: lightgray;
+      border-top-left-radius: 400px;
+      width: 400px;
+      height: 400px;
+      margin: 200px auto auto 600px;
+      opacity: 0.3;
+    }
 
-      .circle_four {
-        position: absolute;
-        background-color: lightgray;
-        border-top-left-radius: 500px;
-        width: 500px;
-        height: 500px;
-        margin: 200px auto auto 1200px;
-        opacity: 0.2;
-      }
+    .circle_four {
+      position: absolute;
+      background-color: lightgray;
+      border-top-left-radius: 500px;
+      width: 500px;
+      height: 500px;
+      margin: 100px auto auto 500px;
+      opacity: 0.2;
+    }
 
-      .circle_five {
-        position: absolute;
-        background-color: lightgray;
-        border-top-left-radius: 600px;
-        width: 600px;
-        height: 600px;
-        margin: 100px auto auto 1100px;
-        opacity: 0.1;
-      }
-    </style>
+    .circle_five {
+      position: absolute;
+      background-color: transparent;
+      border-top-left-radius: 600px;
+      width: 600px;
+      height: 600px;
+      margin: 100px auto auto 300px;
+      opacity: 0.1;
+    }
+  </style>
 
-    <script type="module">
-      // Firebase SDK 라이브러리 가져오기
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        getDocs,
-        getDoc,
-        doc,
-        deleteDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  <script type="module">
+    // Firebase SDK 라이브러리 가져오기
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      getDoc,
+      doc,
+      deleteDoc,
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-      // Firebase 구성 정보 설정
-      const firebaseConfig = {
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        apiKey: "AIzaSyAaN0oP7dRX_fkIOGG6RZiq-w-XndV6c1k",
-        authDomain: "sparta-35436.firebaseapp.com",
-        projectId: "sparta-35436",
-        storageBucket: "sparta-35436.firebasestorage.app",
-        messagingSenderId: "337029385282",
-        appId: "1:337029385282:web:bc784eb4944380588e71db",
-        measurementId: "G-6WRJLTVW0J",
+    // Firebase 구성 정보 설정
+    const firebaseConfig = {
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      apiKey: "AIzaSyAaN0oP7dRX_fkIOGG6RZiq-w-XndV6c1k",
+      authDomain: "sparta-35436.firebaseapp.com",
+      projectId: "sparta-35436",
+      storageBucket: "sparta-35436.firebasestorage.app",
+      messagingSenderId: "337029385282",
+      appId: "1:337029385282:web:bc784eb4944380588e71db",
+      measurementId: "G-6WRJLTVW0J",
+    };
+
+    // Firebase 인스턴스 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // url에서 파이어베이스 문서 id 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberId = urlParams.get("id");
+
+    const docRef = doc(db, "members", memberId);
+    const memberSnap = await getDoc(docRef);
+
+    if (memberSnap.exists()) {
+      const data = memberSnap.data();
+
+      document.getElementById("member-name").innerText = data["name"];
+      document.getElementById("member-mbti").innerText = data["mbti"];
+      document.getElementById("member-intro").innerText = data["intro"];
+      document.getElementById("member-strength").innerText = data["strength"];
+      document.getElementById("member-blog").innerText = data["blog"];
+      document.getElementById("member-style").innerText = data["style"];
+      document.getElementById("member-image").src = data["image"];
+    } else {
+      console.log("해당 멤버 문서를 찾을 수 없습니다.");
+    }
+
+    // 등록하기 버튼
+    $("#register-btn").click(async function () {
+      let name = $("#name-register").val();
+      let content = $("#content-register").val();
+
+      let doc = {
+        name: name,
+        content: content,
+        memberId: memberId,
       };
 
-      // Firebase 인스턴스 초기화
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+      await addDoc(collection(db, "comments"), doc);
+      alert("등록 완료!");
+      window.location.reload();
+    });
 
-      // url에서 파이어베이스 문서 id 가져오기
-      const urlParams = new URLSearchParams(window.location.search);
-      const memberId = urlParams.get("id");
+    // 댓글 불러오기
+    let docs = await getDocs(collection(db, "comments"));
+    docs.forEach((doc) => {
+      let row = doc.data();
 
-      const docRef = doc(db, "members", memberId);
-      const memberSnap = await getDoc(docRef);
+      if (row.memberId === memberId) {
+        // 입력값 가져오기
+        let name = row["name"];
+        let content = row["content"];
+        let temp_html = ``;
 
-      if (memberSnap.exists()) {
-        const data = memberSnap.data();
-
-        document.getElementById("member-name").innerText = data["name"];
-        document.getElementById("member-mbti").innerText = data["mbti"];
-        document.getElementById("member-intro").innerText = data["intro"];
-        document.getElementById("member-strength").innerText = data["strength"];
-        document.getElementById("member-blog").innerText = data["blog"];
-        document.getElementById("member-style").innerText = data["style"];
-        document.getElementById("member-image").src = data["image"];
-      } else {
-        console.log("해당 멤버 문서를 찾을 수 없습니다.");
-      }
-
-      // 등록하기 버튼
-      $("#register-btn").click(async function () {
-        let name = $("#name-register").val();
-        let content = $("#content-register").val();
-
-        let doc = {
-          name: name,
-          content: content,
-          memberId: memberId,
-        };
-
-        await addDoc(collection(db, "comments"), doc);
-        alert("등록 완료!");
-        window.location.reload();
-      });
-
-      // 댓글 불러오기
-      let docs = await getDocs(collection(db, "comments"));
-      docs.forEach((doc) => {
-        let row = doc.data();
-
-        if (row.memberId === memberId) {
-          // 입력값 가져오기
-          let name = row["name"];
-          let content = row["content"];
-          let temp_html = ``;
-
-          if (!name) {
-            temp_html = `
+        if (!name) {
+          temp_html = `
             <div class="comment" data-id="${doc.id}">
               <div class=name-wrap>
                 <span>User</span>
@@ -402,8 +395,8 @@
               </div>
               <p class="content">${content}</p>
             </div>`;
-          } else {
-            temp_html = `
+        } else {
+          temp_html = `
             <div class="comment" data-id="${doc.id}">
               <div class=name-wrap>
                 <span>${name}</span>
@@ -411,130 +404,86 @@
               </div>
               <p class="content">${content}</p>
             </div>`;
-          }
-          $(".comment-wrap").append(temp_html);
         }
-      });
+        $(".comment-wrap").append(temp_html);
+      }
+    });
 
-      // 댓글 삭제 버튼
-      $(document).on("click", ".delete-btn", async function () {
-        let commentCard = $(this).closest(".comment");
-        let commentId = commentCard.data("id");
+    // 댓글 삭제 버튼
+    $(document).on("click", ".delete-btn", async function () {
+      let commentCard = $(this).closest(".comment");
+      let commentId = commentCard.data("id");
 
-        if (!commentId) {
-          alert("댓글 ID를 찾을 수 없습니다!");
-          return;
-        }
+      if (!commentId) {
+        alert("댓글 ID를 찾을 수 없습니다!");
+        return;
+      }
 
-        await deleteDoc(doc(db, "comments", commentId));
-        alert("댓글이 삭제되었습니다.");
-        window.location.reload();
-      });
-    </script>
-  </head>
+      await deleteDoc(doc(db, "comments", commentId));
+      alert("댓글이 삭제되었습니다.");
+      window.location.reload();
+    });
+  </script>
+</head>
 
-  <body>
-    <!-- 상단 바 -->
-    <header class="top-nav">
-      <div class="nav-container">
-        <a href="index.html" class="team-name">🍨 2gether</a>
-      </div>
-    </header>
+<body>
+  <!-- 상단 바 -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <a href="index.html" class="team-name">🍨 2gether</a>
+    </div>
+  </header>
 
-    <div class="membercard">
-      <!-- first_box 조원 사진 구역 -->
-      <div class="first_box">
-        <img id="member-image" src="${image}" class="card-img-top" alt="..." />
-      </div>
+  <div class="membercard">
+    <!-- first_box 조원 사진 구역 -->
+    <div class="first_box">
+      <img id="member-image" src="${image}" class="card-img-top" alt="..." />
+    </div>
 
-      <!-- 조원 본문 구역-->
-      <div class="second_box" id="member_box">
-        <div class="col">
-          <div class="mem_card h-100">
-            <div class="card-body">
-              <h5
-                class="card-title"
-                id="member-name"
-                style="font-size: 50px"
-              ></h5>
-              <p
-                class="card-text_1"
-                id="member-mbti"
-                style="font-size: 30px"
-              ></p>
-              <p
-                class="card-text_2"
-                id="member-intro"
-                style="font-size: 29px"
-              ></p>
-              <p
-                class="card-text_3"
-                id="member-strength"
-                style="font-size: 28px"
-              ></p>
-              <p
-                class="card-text_3"
-                id="member-blog"
-                style="font-size: 28px"
-              ></p>
-              <p
-                class="card-text_4"
-                id="member-style"
-                style="font-size: 27px"
-              ></p>
-              <p
-                class="card-text_5"
-                id="member-image"
-                style="font-size: 26px"
-              ></p>
-            </div>
+    <!-- 조원 본문 구역-->
+    <div class="second_box" id="member_box">
+      <div class="col">
+        <div class="mem_card h-100">
+          <div class="card-body">
+            <h5 class="card-title" id="member-name" style="font-size: 50px"></h5>
+            <p class="card-text_1" id="member-mbti" style="font-size: 30px"></p>
+            <p class="card-text_2" id="member-intro" style="font-size: 29px"></p>
+            <p class="card-text_3" id="member-strength" style="font-size: 28px"></p>
+            <p class="card-text_3" id="member-blog" style="font-size: 28px"></p>
+            <p class="card-text_4" id="member-style" style="font-size: 27px"></p>
+            <p class="card-text_5" id="member-image" style="font-size: 26px"></p>
           </div>
         </div>
       </div>
-
-      <!--조원 설명 second_box  -->
-      <div class="circle_one">
-        <img
-          src="https://asset.m-gs.kr/prod/64914507/1/550"
-          class="card-img-top"
-          alt="..."
-        />
-      </div>
-      <div class="circle_two"></div>
-      <div class="circle_three"></div>
-      <div class="circle_four"></div>
-      <div class="circle_five">
-        <img
-          src="https://www.bing.co.kr/upload/product/2024/05/7ea7552f-a9fd-4e05-9f35-9410b2474e0f.png"
-          class="card-img-top"
-          alt="..."
-        />
-      </div>
     </div>
 
-    <div class="comment-container">
-      <p id="comment-title">방명록</p>
+    <!--조원 설명 second_box  -->
+    <div class="circle_one">
+      <img src="https://asset.m-gs.kr/prod/64914507/1/550" class="card-img-top" alt="..." />
+    </div>
+    <div class="circle_two"></div>
+    <div class="circle_three"></div>
+    <div class="circle_four"></div>
+    <div class="circle_five">
+      <img src="https://www.bing.co.kr/upload/product/2024/05/7ea7552f-a9fd-4e05-9f35-9410b2474e0f.png"
+        class="card-img-top" alt="..." />
+    </div>
+  </div>
 
-      <div class="comment-register">
-        <div>
-          <input
-            type="text"
-            id="name-register"
-            maxlength="20"
-            placeholder="닉네임"
-          />
-          <button id="register-btn" type="button">등록하기</button>
-        </div>
+  <div class="comment-container">
+    <p id="comment-title">방명록</p>
 
-        <input
-          type="text"
-          id="content-register"
-          maxlength="50"
-          placeholder="방명록을 작성하세요."
-        />
+    <div class="comment-register">
+      <div>
+        <input type="text" id="name-register" maxlength="20" placeholder="닉네임" />
+        <button id="register-btn" type="button">등록하기</button>
       </div>
 
-      <div class="comment-wrap"></div>
+      <input type="text" id="content-register" maxlength="50" placeholder="방명록을 작성하세요." />
     </div>
-  </body>
+
+    <div class="comment-wrap"></div>
+  </div>
+</body>
+
 </html>
