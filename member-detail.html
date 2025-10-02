@@ -29,7 +29,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #f5f5f5;
+        background-color: #f6f0e8;
         min-height: 100vh;
       }
 
@@ -37,20 +37,29 @@
         width: 1080px;
       }
 
+      :root {
+        --yy-cream: #f6f0e8;
+        --yy-burgundy: #8a2a2a;
+      }
+
       /* 상단바 전체 영역 */
       .top-nav {
         width: 100%;
-        background-color: #eac2d8;
-        color: white;
-        padding: 10px 0;
+        background: var(--yy-cream);
+  border-bottom: 2px solid var(--yy-burgundy);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
       }
 
       /* 안쪽 고정 레이아웃 (본문과 폭 맞추기) */
       .nav-container {
         width: 1080px;
         margin: 0 auto;
+        height: 60px;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
       }
 
@@ -60,14 +69,20 @@
       }
 
       .team-name {
+        grid-column:2; justify-self: center;
+  color: var(--yy-burgundy);
         font-family: "Bitcount Prop Double Ink", system-ui;
         font-size: 1.25rem;
         font-weight: bold;
+        letter-spacing: 1px;
+  text-shadow:
+    0 1px 0 #fff,
+    0 -1px 0 rgba(0,0,0,0.05);
       }
 
       .header {
         background-color: lightsteelblue;
-        height: 50px;
+        height: 60px;
       }
 
       #home {
