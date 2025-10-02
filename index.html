@@ -1,219 +1,220 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- jiwon 변경사항: JQuery import 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Gowun+Dodum&display=swap"
+        rel="stylesheet">
 
 
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap');
 
-      @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=IBM+Plex+Sans+KR&family=Jua&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=IBM+Plex+Sans+KR&family=Jua&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-      * {
-        font-family: "Chiron GoRound TC", sans-serif;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+        * {
+            font-family: "Chiron GoRound TC", sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #f6f0e8;
-        min-height: 100vh;
-      }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f6f0e8;
+            min-height: 100vh;
+        }
 
-      .layout-fixed {
-        width: 1080px;
-      }
+        .layout-fixed {
+            width: 1080px;
+        }
 
-      :root {
-        --yy-cream: #f6f0e8;
-        --yy-burgundy: #8a2a2a;
-      }
+        :root {
+            --yy-cream: #f6f0e8;
+            --yy-burgundy: #8a2a2a;
+        }
 
-    /* 상단바 전체 */
-    .top-nav {
-  width: 100%;
-  background: var(--yy-cream);
-  border-bottom: 2px solid var(--yy-burgundy);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+        /* 상단바 전체 */
+        .top-nav {
+            width: 100%;
+            background: var(--yy-cream);
+            border-bottom: 2px solid var(--yy-burgundy);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    /* 안쪽 고정 레이아웃 */
-    .top-nav .nav-container {
-  width: 1080px;
-  margin: 0 auto;
-  height: 60px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-}
+        /* 안쪽 고정 레이아웃 */
+        .top-nav .nav-container {
+            width: 1080px;
+            margin: 0 auto;
+            height: 60px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
 
-/* 가운데 로고 */
-.top-nav .yy-brand {
-  grid-column:2; justify-self: center;
-  color: var(--yy-burgundy);
-  font-family: "Bitcount Prop Double Ink", system-ui;
-        font-size: 1.25rem;
-        font-weight: bold;
-  letter-spacing: 1px;
-  text-shadow:
-    0 1px 0 #fff,
-    0 -1px 0 rgba(0,0,0,0.05);
-}
+        /* 가운데 로고 */
+        .top-nav .yy-brand {
+            grid-column: 2;
+            justify-self: center;
+            color: var(--yy-burgundy);
+            font-family: "Bitcount Prop Double Ink", system-ui;
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow:
+                0 1px 0 #fff,
+                0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
 
-/* 우측 버튼 */
-.top-nav .yy-btn {
-  grid-column:3; justify-self: end;
-  background: transparent;
-  color: var(--yy-burgundy);
-  border: 1px solid var(--yy-burgundy);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-family: "Gowun Dodum", sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.top-nav.yy-btn:hover {
-  background: var(--yy-burgundy);
-  color: #fff;
-}
+        /* 우측 버튼 */
+        .top-nav .yy-btn {
+            grid-column: 3;
+            justify-self: end;
+            background: transparent;
+            color: var(--yy-burgundy);
+            border: 1px solid var(--yy-burgundy);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: "Gowun Dodum", sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .top-nav.yy-btn:hover {
+            background: var(--yy-burgundy);
+            color: #fff;
+        }
 
 
-      .member-row { 
-        margin-top: 2rem;
-      }
+        .member-row {
+            margin-top: 2rem;
+        }
 
-      .card-img-top {
-        height: 250px;
-        object-fit: cover;
-      }
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+        }
 
-      .member-card {
-        cursor: pointer;
-        transition: transform 0.2s;
-      }
-      .member-card:hover {
-        transform: scale(1.05);
-      }
+        .member-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .member-card:hover {
+            transform: scale(1.05);
+        }
     </style>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        getDocs,
-      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+        } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-      // jiwon 변경사항: 파이어베이스 정보 변경
-      const firebaseConfig = {
-        apiKey: "AIzaSyAaN0oP7dRX_fkIOGG6RZiq-w-XndV6c1k",
-        authDomain: "sparta-35436.firebaseapp.com",
-        projectId: "sparta-35436",
-        storageBucket: "sparta-35436.firebasestorage.app",
-        messagingSenderId: "337029385282",
-        appId: "1:337029385282:web:bc784eb4944380588e71db",
-        measurementId: "G-6WRJLTVW0J",
-      };
+        // jiwon 변경사항: 파이어베이스 정보 변경
+        const firebaseConfig = {
+            apiKey: "AIzaSyAaN0oP7dRX_fkIOGG6RZiq-w-XndV6c1k",
+            authDomain: "sparta-35436.firebaseapp.com",
+            projectId: "sparta-35436",
+            storageBucket: "sparta-35436.firebasestorage.app",
+            messagingSenderId: "337029385282",
+            appId: "1:337029385282:web:bc784eb4944380588e71db",
+            measurementId: "G-6WRJLTVW0J",
+        };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-      document.addEventListener("click", (e) => {
-        const card = e.target.closest(".member-card");
-        if (!card) return;
+        document.addEventListener("click", (e) => {
+            const card = e.target.closest(".member-card");
+            if (!card) return;
 
-        const link = card.getAttribute("data-link");
-        if (link) {
-          window.location.href = link;
-        }
-      });
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const toggleButton = document.getElementById("member-form-toggle");
-        const formCard = document.getElementById("member-form-card");
-        const form = document.getElementById("member-form");
-        const memberList = document.getElementById("member-list");
-
-        toggleButton.addEventListener("click", () => {
-          formCard.classList.toggle("d-none");
+            const link = card.getAttribute("data-link");
+            if (link) {
+                window.location.href = link;
+            }
         });
 
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleButton = document.getElementById("member-form-toggle");
+            const formCard = document.getElementById("member-form-card");
+            const form = document.getElementById("member-form");
+            const memberList = document.getElementById("member-list");
 
-          const name = document.getElementById("member-name").value.trim();
-          const intro = document.getElementById("member-intro").value.trim();
-          const mbti = document.getElementById("member-mbti").value.trim();
-          const strength = document
-            .getElementById("member-strength")
-            .value.trim();
-          const blog = document.getElementById("member-blog").value.trim();
-          const style = document.getElementById("member-style").value.trim();
-          const image = document.getElementById("member-image").value.trim();
-          if (!name || !intro) return;
+            toggleButton.addEventListener("click", () => {
+                formCard.classList.toggle("d-none");
+            });
 
-          await addDoc(collection(db, "members"), {
-            name: name,
-            intro: intro,
-            mbti: mbti,
-            strength: strength,
-            blog: blog,
-            style: style,
-            image: image,
-            createdAt: new Date(),
-          });
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-          const col = document.createElement("div");
-          col.className = "col";
-          col.innerHTML = `
-    <div class="card member-card shadow" data-link="member-detail.html"> 
-        <div class="ratio ratio-4x3">
-            <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
-                onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
-        </div>
-        <div class="card-body">
-            <h5 class="card-title mb-1">${name}</h5>
-            <p class="card-text mb-0">${intro}</p>
-        </div>
+                const name = document.getElementById("member-name").value.trim();
+                const intro = document.getElementById("member-intro").value.trim();
+                const mbti = document.getElementById("member-mbti").value.trim();
+                const strength = document.getElementById("member-strength").value.trim();
+                const blog = document.getElementById("member-blog").value.trim();
+                const style = document.getElementById("member-style").value.trim();
+                const image = document.getElementById("member-image").value.trim();
+
+                if (!name || !intro) return;
+
+                // ✅ Firestore에 저장하고 문서 참조 반환받기
+                const docRef = await addDoc(collection(db, "members"), {
+                    name, intro, mbti, strength, blog, style, image,
+                    createdAt: new Date(),
+                });
+
+                // ✅ 등록 후, 새 카드를 문서 id를 포함해서 생성
+                const col = document.createElement("div");
+                col.className = "col";
+                col.innerHTML = `
+    <div class="card member-card shadow" 
+         id="member-card" 
+         data-member-id="${docRef.id}">
+      <div class="ratio ratio-4x3">
+        <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}"
+             onerror="this.src='https://via.placeholder.com/600x450?text=2gether'">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title mb-1">${name}</h5>
+        <p class="card-text mb-0">${intro}</p>
+      </div>
     </div>
-`;
+  `;
+                memberList.appendChild(col);
 
-          memberList.appendChild(col);
+                // ✅ 폼 초기화 & 닫기
+                form.reset();
+                formCard.classList.add("d-none");
+            });
 
-          form.reset();
-          formCard.classList.add("d-none");
-        });
 
-        async function loadMembers() {
-          const querySnapshot = await getDocs(collection(db, "members"));
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const col = document.createElement("div");
-            col.className = "col";
-            // jiown 변경사항: id="member-card" data-member-id="${doc.id}" 추가
-            col.innerHTML = `
+            async function loadMembers() {
+                const querySnapshot = await getDocs(collection(db, "members"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const col = document.createElement("div");
+                    col.className = "col";
+                    // jiown 변경사항: id="member-card" data-member-id="${doc.id}" 추가
+                    col.innerHTML = `
     <div class="card member-card shadow" id="member-card" data-link="member-detail.html" data-member-id="${doc.id}">
         <div class="ratio ratio-4x3">
             <img src="${data.image}" class="w-100 h-100 object-fit-cover" alt="${data.name}"
@@ -226,21 +227,22 @@
     </div>
 `;
 
-            memberList.appendChild(col);
-          });
-        }
+                    memberList.appendChild(col);
+                });
+            }
 
-        loadMembers();
-      });
+            loadMembers();
+        });
 
-      // jiwon 변경사항: 멤버 카드 클릭 시 상세페이지로 이동
-      $(document).on("click", "#member-card", function () {
-        let memberId = $(this).data("member-id"); // 카드에 저장된 doc.id 가져오기
-        window.location.href = `member-detail.html?id=${memberId}`; // member-detail.html로 id 전달
-      });
+        // jiwon 변경사항: 멤버 카드 클릭 시 상세페이지로 이동
+        $(document).on("click", "#member-card", function () {
+            let memberId = $(this).data("member-id"); // 카드에 저장된 doc.id 가져오기
+            window.location.href = `member-detail.html?id=${memberId}`; // member-detail.html로 id 전달
+        });
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- 상단 바 -->
     <header class="top-nav">
         <div class="nav-container">
@@ -250,183 +252,95 @@
     </header>
 
     <div class="layout-fixed">
-      <!-- 멤버 등록 코드 -->
-      <div
-        id="member-form-card"
-        class="card mx-auto shadow mt-5 mb-5 d-none"
-        style="max-width: 500px; border-radius: 10px"
-      >
-        <div class="card-body">
-          <h4 class="card-title text-center mb-4">멤버 등록</h4>
-          <form id="member-form">
-            <div class="mb-3">
-              <label for="member-name" class="form-label">이름</label>
-              <input
-                type="text"
-                class="form-control"
-                id="member-name"
-                placeholder="멤버 이름을 입력하세요"
-                required
-              />
+        <!-- 멤버 등록 코드 -->
+        <div id="member-form-card" class="card mx-auto shadow mt-5 mb-5 d-none"
+            style="max-width: 500px; border-radius: 10px">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">멤버 등록</h4>
+                <form id="member-form">
+                    <div class="mb-3">
+                        <label for="member-name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="member-name" placeholder="멤버 이름을 입력하세요" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-intro" class="form-label">한 줄 소개</label>
+                        <input type="text" class="form-control" id="member-intro" placeholder="간단한 소개를 입력하세요"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-mbti" class="form-label">MBTI</label>
+                        <input type="text" class="form-control" id="member-mbti" placeholder="예: ENFP" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-strength" class="form-label">나의 장점</label>
+                        <textarea class="form-control" id="member-strength" rows="2" placeholder="본인의 강점을 적어주세요"
+                            required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-blog" class="form-label">블로그 주소</label>
+                        <input type="url" class="form-control" id="member-blog" placeholder="https://example.com"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-style" class="form-label">스타일 / 협업 스타일</label>
+                        <textarea class="form-control" id="member-style" rows="2" placeholder="본인의 스타일을 적어주세요"
+                            required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-image" class="form-label">이미지 URL</label>
+                        <input type="url" class="form-control" id="member-image"
+                            placeholder="https://example.com/profile.jpg" required />
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4">
+                            등록하기
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-              <label for="member-intro" class="form-label">한 줄 소개</label>
-              <input
-                type="text"
-                class="form-control"
-                id="member-intro"
-                placeholder="간단한 소개를 입력하세요"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="member-mbti" class="form-label">MBTI</label>
-              <input
-                type="text"
-                class="form-control"
-                id="member-mbti"
-                placeholder="예: ENFP"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="member-strength" class="form-label">나의 장점</label>
-              <textarea
-                class="form-control"
-                id="member-strength"
-                rows="2"
-                placeholder="본인의 강점을 적어주세요"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="member-blog" class="form-label">블로그 주소</label>
-              <input
-                type="url"
-                class="form-control"
-                id="member-blog"
-                placeholder="https://example.com"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="member-style" class="form-label"
-                >스타일 / 협업 스타일</label
-              >
-              <textarea
-                class="form-control"
-                id="member-style"
-                rows="2"
-                placeholder="본인의 스타일을 적어주세요"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="member-image" class="form-label">이미지 URL</label>
-              <input
-                type="url"
-                class="form-control"
-                id="member-image"
-                placeholder="https://example.com/profile.jpg"
-                required
-              />
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary px-4">
-                등록하기
-              </button>
-            </div>
-          </form>
         </div>
-      </div>
 
-      <!-- 팀 소개 -->
-      <div class="card mt-5 mb-5 mx-auto shadow" style="max-width: 1080px">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img
-              src="https://i.namu.wiki/i/j9nHHoKNMs_NRsXR5rDxKfwg-lNL8f-bcpLPxfmotdqeTXpeCEscwfyPmgX_X4WvCJmpGVGPZxrbVaAEuZLVOw.webp"
-              class="img-fluid rounded-start h-100"
-              alt="팀 이미지"
-              style="
+        <!-- 팀 소개 -->
+        <div class="card mt-5 mb-5 mx-auto shadow" style="max-width: 1080px">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://i.namu.wiki/i/j9nHHoKNMs_NRsXR5rDxKfwg-lNL8f-bcpLPxfmotdqeTXpeCEscwfyPmgX_X4WvCJmpGVGPZxrbVaAEuZLVOw.webp"
+                        class="img-fluid rounded-start h-100" alt="팀 이미지" style="
                 object-fit: cover;
                 border-top-left-radius: 15px;
                 border-bottom-left-radius: 15px;
-              "
-            />
-          </div>
-          <div class="col-md-8 d-flex flex-column justify-content-center">
-            <div class="card-body text-center">
-              <h3 class="mb-3" style="line-height: 1.6">
-                🌱 <strong>서로의 첫걸음을 응원하며</strong><br />
-                💻 <strong>실전 프로젝트로 함께 성장하는 팀</strong><br />
-                🍨
-                <span style="font-size: 1.8rem; font-weight: 700">2gether</span>
-                🍨 입니다!
-              </h3>
+                " />
+                </div>
+                <div class="col-md-8 d-flex flex-column justify-content-center">
+                    <div class="card-body text-center">
+                        <h3 class="mb-3" style="line-height: 1.6">
+                            🌱 <strong>서로의 첫걸음을 응원하며</strong><br />
+                            💻 <strong>실전 프로젝트로 함께 성장하는 팀</strong><br />
+                            🍨
+                            <span style="font-size: 1.8rem; font-weight: 700">2gether</span>
+                            🍨 입니다!
+                        </h3>
 
-              <hr class="w-50 mx-auto mb-3" />
+                        <hr class="w-50 mx-auto mb-3" />
 
-              <div
-                class="text-start ps-4"
-                style="display: inline-block; text-align: left"
-              >
-                <p class="fw-bold mb-2">🤙 <strong>우리의 규칙</strong></p>
-                <ul class="mb-0">
-                  <li>14시, 19시 데일리 스크럼</li>
-                  <li>불참 시 사유 공유하기</li>
-                  <li>모르는 부분이 있을 시 질문하기</li>
-                  <li>인사 건네기</li>
-                </ul>
-              </div>
+                        <div class="text-start ps-4" style="display: inline-block; text-align: left">
+                            <p class="fw-bold mb-2">🤙 <strong>우리의 규칙</strong></p>
+                            <ul class="mb-0">
+                                <li>14시, 19시 데일리 스크럼</li>
+                                <li>불참 시 사유 공유하기</li>
+                                <li>모르는 부분이 있을 시 질문하기</li>
+                                <li>인사 건네기</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
-      <!-- 팀원 소개 -->
-      <div id="member-list" class="row row-cols-1 row-cols-md-4 g-4">
-        <!-- <div class="col">
-                <div class="card h-100 member-card shadow" data-link="member.html">
-                    <img src="https://i.pinimg.com/736x/53/fa/f6/53faf62829a9c44c082d15460c2b1c65.jpg" class="card-img-top"
-                        alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Member 1</h5>
-                        <p class="card-text">안녕하세요!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 member-card shadow" data-link="member.html">
-                    <img src="https://i.pinimg.com/1200x/61/52/56/615256cf03c973ccc918c680ff1d79fb.jpg" class="card-img-top"
-                        alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Member 2</h5>
-                        <p class="card-text">반가워요!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 member-card shadow" data-link="member.html">
-                    <img src="https://i.pinimg.com/736x/68/71/51/687151fcefcd90788c159584a3a61f4c.jpg" class="card-img-top"
-                        alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Member 3</h5>
-                        <p class="card-text">수고하셨어요!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 member-card shadow" data-link="member.html">
-                    <img src="https://i.pinimg.com/1200x/17/8e/77/178e771f1fc41396116f382f9d13d185.jpg" class="card-img-top"
-                        alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Member 4</h5>
-                        <p class="card-text">다음에 또 만나요!</p>
-                    </div>
-                </div>
-            </div> -->
-      </div>
+        <!-- 팀원 소개 -->
+        <div id="member-list" class="row row-cols-1 row-cols-md-4 g-4">
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
