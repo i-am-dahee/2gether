@@ -16,14 +16,14 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=Jua&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-      @import url("https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap');
 
-      * {
-        font-family: "Chiron GoRound TC", sans-serif;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+    * {
+      font-family: "Chiron GoRound TC", sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
       body {
         display: flex;
@@ -261,17 +261,17 @@
         border-radius: 5px;
       }
 
-      .membercard {
-        height: 600px;
-        background-color: rgb(255, 255, 255);
-        width: 1000px;
-        margin: 30px auto 5px auto;
-        padding: 20px;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+    .membercard {
+      height: 600px;
+      background-color: rgb(255, 255, 255);
+      width: 1000px;
+      margin: 30px auto 5px auto;
+      padding: 20px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
       .first_box {
         height: 500px;
@@ -282,19 +282,23 @@
         border-radius: 5px;
       }
 
-      .first_box img {
-        border-radius: 1000px;
-      }
+    .first_box img {
+      border-radius: 1000px;
+      width: 300px;
+      height: 300px;
+    }
 
-      .second_box {
-        height: 500px;
-        background-color: transparent;
-        width: 700px;
-        margin: 20px 200px auto 60px;
-        padding: 10px;
-        box-shadow: 0px auto 3px 0px transparent;
-        border-radius: 5px;
-      }
+    .second_box {
+      position: absolute;
+      height: 500px;
+      background-color: transparent;
+      width: 500px;
+      margin: 100px -270px auto 60px;
+      padding: 10px;
+      box-shadow: 0px auto 3px 0px transparent;
+      border-radius: 5px;
+      z-index: 99
+    }
 
       .back_ground {
         background-color: lightgray;
