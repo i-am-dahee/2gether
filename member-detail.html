@@ -14,7 +14,9 @@
     />
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=Jua&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink:wght@100..900&family=Gowun+Dodum&display=swap');
+
+      @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Chiron+GoRound+TC:wght@200..900&family=Gowun+Dodum&family=IBM+Plex+Sans+KR&family=Jua&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
       * {
         font-family: "Chiron GoRound TC", sans-serif;
@@ -58,6 +60,7 @@
       }
 
       .team-name {
+        font-family: "Bitcount Prop Double Ink", system-ui;
         font-size: 1.25rem;
         font-weight: bold;
       }
@@ -138,6 +141,11 @@
         border-radius: 5px;
       }
 
+      #register-btn:hover{
+        background-color: lightgray;
+        border: 1px solid lightgray;
+      }
+
       .comment {
         max-width: 800px;
         min-height: 50px; /* 내용이 없을 때 최소 높이 */
@@ -189,6 +197,11 @@
         border-radius: 3px;
         
         padding: 2px 6px;
+      }
+
+      .delete-btn:hover {
+        background-color: lightgray;
+        border: 1px solid lightgray;
       }
 
       .mypostingbox {
