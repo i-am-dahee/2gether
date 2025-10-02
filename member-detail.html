@@ -360,7 +360,10 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
       import {
         getFirestore,
+        query,
+        orderBy,
         collection,
+        serverTimestamp,
         addDoc,
         getDocs,
         getDoc,
@@ -416,6 +419,7 @@
         let doc = {
           name: name,
           content: content,
+          createdAt: serverTimestamp(), // 댓글 등록 시간
           memberId: memberId,
         };
 
@@ -425,7 +429,10 @@
       });
 
       // 댓글 불러오기
-      let docs = await getDocs(collection(db, "comments"));
+      const commentsCollection = collection(db, "comments");
+      const q = query(commentsCollection, orderBy("createdAt", "desc"))
+      
+      const docs = await getDocs(q);
       docs.forEach((doc) => {
         let row = doc.data();
 
