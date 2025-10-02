@@ -128,7 +128,7 @@
       }
 
       #register-btn {
-        background-color: #f095c7;
+        background-color: #e7b3d0;
         color: white;
         height: 40px;
         width: 85px;
@@ -137,13 +137,13 @@
         margin: 0px 5px 10px 510px;
         padding: 5px 5px 5px 5px;
 
-        border: 1px solid #e593c0;
+        border: 1px solid #e9b0cf;
         border-radius: 5px;
       }
 
       #register-btn:hover{
-        background-color: lightgray;
-        border: 1px solid lightgray;
+        background-color: #e9a3c9;
+        border: 1px solid #e9a3c9;
       }
 
       .comment {
@@ -189,19 +189,19 @@
       }
 
       .delete-btn {
-        background-color: #e999c5;
+        background-color: #eac2d8;
         color: white;
 
         font-size: 12px;
-        border: 1px solid #f095c7;
-        border-radius: 3px;
+        border: 1px solid #eac2d8;
+        border-radius: 4px;
         
-        padding: 2px 6px;
+        padding: 5px 6px 2px 6px;
       }
 
       .delete-btn:hover {
-        background-color: lightgray;
-        border: 1px solid lightgray;
+        background-color: #e9a3c9;
+        border: 1px solid #e9a3c9;
       }
 
       .mypostingbox {
@@ -240,6 +240,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+
+      #member-blog {
+        text-decoration: none;
+        color: black;
+      }
+
+      #member-blog:visited {
+        color: black;
       }
 
       .first_box {
@@ -359,9 +368,11 @@
         document.getElementById("member-mbti").innerText = data["mbti"];
         document.getElementById("member-intro").innerText = data["intro"];
         document.getElementById("member-strength").innerText = data["strength"];
-        document.getElementById("member-blog").innerText = data["blog"];
         document.getElementById("member-style").innerText = data["style"];
         document.getElementById("member-image").src = data["image"];
+        const link = document.getElementById("member-blog");
+        link.setAttribute("href", data["blog"]);
+        link.textContent = "블로그 구경하기"
       } else {
         console.log("해당 멤버 문서를 찾을 수 없습니다.");
       }
@@ -473,11 +484,6 @@
                 style="font-size: 28px"
               ></p>
               <p
-                class="card-text_3"
-                id="member-blog"
-                style="font-size: 28px"
-              ></p>
-              <p
                 class="card-text_4"
                 id="member-style"
                 style="font-size: 27px"
@@ -487,6 +493,11 @@
                 id="member-image"
                 style="font-size: 26px"
               ></p>
+              <a
+                class="card-text_3"
+                id="member-blog"
+                style="font-size: 28px"
+              ></a>
             </div>
           </div>
         </div>
